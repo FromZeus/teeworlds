@@ -15,7 +15,7 @@ This modification is mainly directed to Instagib-players but of course vanilla i
 TW+ contains a lot of features which might be useful for one or two and is highly customizable, what means that you can disable features which you dont want or need.
 
 Features:
-- New Gametypes (Possible: DM+, TDM+, CTF+, iDM+, iTDM+, iCTF+, iFreeze+, gDM+, gTDM+, gCTF+)
+- New Gametypes (Possible: DM+, TDM+, CTF+, iDM+, iTDM+, iCTF+, iFreeze+, gDM+, gTDM+, gCTF+, sDM+, sTDM+, sCTF+)
 - Mute-On-Spam
 - Anti-Capslock
 - Anticamper
@@ -77,6 +77,9 @@ You will **score** both **by freezing** a opponent **and melting** a teammate. I
 | sv_grenade_min_damage | 4 | 3 | 6 | Minimum damage the grenade must make to kill the player (depends how far away the bullet explodes) |
 | sv_grenade_ammo | 6 | -1 | 10 | How much ammo for the grenade (-1 for endless) |
 | sv_grenade_ammo_regen | 1000 | 800 | 2000 | Time till one bullet regenerates |
+| sv_shotgun_min_damage | 1 | 1 | 6 | Minimum damage the shotgun must make to kill the player |
+| sv_shotgun_ammo | 10 | -1 | 100 | How much ammo for the shotgun (-1 for endless) |
+| sv_shotgun_ammo_regen | 300 | 100 | 2500 | Time till one bullet regenerates |
 | sv_ifreeze_automelt_time | 30 | 10 | 120 | Time till the player respawn automatically when he's frozen |
 | sv_ifreeze_melt_range | 100 | 10 | 1000 | Maximum range to melt a player |
 | sv_ifreeze_melt_time | 1200 | 500 | 5000 | Time (in ms) a player has to stand next to an frozen player to melt him |

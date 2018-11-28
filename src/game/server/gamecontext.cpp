@@ -15,6 +15,7 @@
 #include "gamemodes/ctf.h"
 #include "gamemodes/mod.h"
 #include "gamemodes/grenade.h"
+#include "gamemodes/shotgun.h"
 #include "gamemodes/ifreeze.h"
 
 enum
@@ -1948,6 +1949,12 @@ void CGameContext::OnInit(/*class IKernel *pKernel*/)
 		m_pController = new CGameControllerGDM(this, IGameController::GAMETYPE_GCTF|IGameController::GAMETYPE_INSTAGIB);
 	else if(!str_comp_nocase(g_Config.m_SvGametype, "gtdm") || !str_comp_nocase(g_Config.m_SvGametype, "gtdm+"))		// gTDM
 		m_pController = new CGameControllerGTDM(this, IGameController::GAMETYPE_GCTF|IGameController::GAMETYPE_INSTAGIB);
+	else if(!str_comp_nocase(g_Config.m_SvGametype, "sctf") || !str_comp_nocase(g_Config.m_SvGametype, "sctf+"))		// sCTF
+		m_pController = new CGameControllerSCTF(this, IGameController::GAMETYPE_SCTF|IGameController::GAMETYPE_INSTAGIB);
+	else if(!str_comp_nocase(g_Config.m_SvGametype, "sdm") || !str_comp_nocase(g_Config.m_SvGametype, "sdm+"))			// sDM
+		m_pController = new CGameControllerSDM(this, IGameController::GAMETYPE_SCTF|IGameController::GAMETYPE_INSTAGIB);
+	else if(!str_comp_nocase(g_Config.m_SvGametype, "stdm") || !str_comp_nocase(g_Config.m_SvGametype, "stdm+"))		// sTDM
+		m_pController = new CGameControllerSTDM(this, IGameController::GAMETYPE_SCTF|IGameController::GAMETYPE_INSTAGIB);
 	else if(!str_comp_nocase(g_Config.m_SvGametype, "ifreeze") || !str_comp_nocase(g_Config.m_SvGametype, "ifreeze+"))	// iFreeze
 		m_pController = new CGameControllerIFreeze(this, IGameController::GAMETYPE_IFREEZE|IGameController::GAMETYPE_INSTAGIB);
 	else

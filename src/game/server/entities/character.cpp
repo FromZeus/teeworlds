@@ -66,6 +66,11 @@ bool CCharacter::Spawn(CPlayer *pPlayer, vec2 Pos)
 			m_ActiveWeapon = WEAPON_GRENADE;
 			m_LastWeapon = WEAPON_GRENADE;
 		}
+		else if(GameServer()->m_pController->m_Flags&IGameController::GAMETYPE_SCTF)
+		{
+			m_ActiveWeapon = WEAPON_SHOTGUN;
+			m_LastWeapon = WEAPON_SHOTGUN;
+		}
 		else
 		{
 			m_ActiveWeapon = WEAPON_RIFLE;
@@ -509,6 +514,9 @@ void CCharacter::HandleWeapons()
 	bool gCTF = GameServer()->m_pController->m_Flags&IGameController::GAMETYPE_GCTF;
 	if(gCTF && m_aWeapons[m_ActiveWeapon].m_Ammo > -1)
 		AmmoRegenTime = g_Config.m_SvGrenadeAmmoRegen;
+	bool sCTF = GameServer()->m_pController->m_Flags&IGameController::GAMETYPE_SCTF;
+	if(sCTF && m_aWeapons[m_ActiveWeapon].m_Ammo > -1)
+		AmmoRegenTime = g_Config.m_SvShotgunAmmoRegen;
 
 	if(AmmoRegenTime)
 	{
@@ -521,7 +529,13 @@ void CCharacter::HandleWeapons()
 			if ((Server()->Tick() - m_aWeapons[m_ActiveWeapon].m_AmmoRegenStart) >= AmmoRegenTime * Server()->TickSpeed() / 1000)
 			{
 				// Add some ammo
-				m_aWeapons[m_ActiveWeapon].m_Ammo = min(m_aWeapons[m_ActiveWeapon].m_Ammo + 1, (gCTF) ? g_Config.m_SvGrenadeAmmo : 10);
+				if (gCTF) {
+					m_aWeapons[m_ActiveWeapon].m_Ammo = min(m_aWeapons[m_ActiveWeapon].m_Ammo + 1, g_Config.m_SvGrenadeAmmo);
+				} else if (sCTF) {
+					m_aWeapons[m_ActiveWeapon].m_Ammo = min(m_aWeapons[m_ActiveWeapon].m_Ammo + 1, g_Config.m_SvShotgunAmmo);
+				} else {
+					m_aWeapons[m_ActiveWeapon].m_Ammo = min(m_aWeapons[m_ActiveWeapon].m_Ammo + 1, 10);
+				}
 				m_aWeapons[m_ActiveWeapon].m_AmmoRegenStart = -1;
 			}
 		}
@@ -881,6 +895,9 @@ bool CCharacter::TakeDamage(vec2 Force, int Dmg, int From, int Weapon)
 	if(GameServer()->m_pController->IsInstagib())
 	{
 		if((GameServer()->m_pController->m_Flags&IGameController::GAMETYPE_GCTF) && g_Config.m_SvGrenadeMinDamage > Dmg)
+			return false;
+
+		if((GameServer()->m_pController->m_Flags&IGameController::GAMETYPE_SCTF) && g_Config.m_SvShotgunMinDamage > Dmg)
 			return false;
 
 		if((From == m_pPlayer->GetCID()) || (Weapon == WEAPON_GAME))
